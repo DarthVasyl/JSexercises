@@ -1,0 +1,55 @@
+/** DESCRIPTION */
+/*
+Drop the elements of an array (first argument), starting from the front, until the predicate (second argument) returns true.
+The second argument, func, is a function you'll use to test the first elements of the array
+to decide if you should drop it or not.
+Return the rest of the array, otherwise return an empty array.
+*/
+
+/** Hard solution */
+function dropElements(arr, func) {
+  // Drop them elements.
+  var dropped = [];
+  for (var i = 0, len = arr.length; i < len; i++) {
+    if (func(arr[i])) {
+      dropped = arr.splice(i, len);
+    }
+  }
+  return dropped;
+}
+
+/** Simple solution */
+function dropElements(arr, func) {
+  // Drop them elements.
+  var start = arr.filter(func)[0];
+  dropped = start ? arr.slice(arr.indexOf(start)) : [];
+  return dropped;
+}
+
+/* Clever solution */
+function dropElements(arr, func) {
+  while(arr.length > 0 && !func(arr[0])) {
+    arr.shift();
+  }
+  return arr;
+}
+
+/** Test calls */
+dropElements([1, 2, 3, 4], function(n) {
+  return n >= 3;
+}); // should return [3, 4].
+dropElements([0, 1, 0, 1], function(n) {
+  return n === 1;
+}); // should return [1, 0, 1].
+dropElements([1, 2, 3], function(n) {
+  return n > 0;
+}); // should return [1, 2, 3].
+dropElements([1, 2, 3, 4], function(n) {
+  return n > 5;
+}); // should return [].
+dropElements([1, 2, 3, 7, 4], function(n) {
+  return n > 3;
+}); // should return [7, 4].
+dropElements([1, 2, 3, 9, 2], function(n) {
+  return n > 2;
+}); // should return [3, 9, 2].
